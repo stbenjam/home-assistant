@@ -248,6 +248,11 @@ class ZwaveLock(zwave.ZWaveDeviceEntity, LockDevice):
 
         if not alarm_type:
             return
+
+        if str(alarm_type) in LOCK_STATUS.keys():
+            _LOGGER.debug("HACK: Setting lock state based on alarm_level", str(alarm_level))
+            self._state = LOCK_STATUS.get(str(alarm_type))
+
         if alarm_type == 21:
             self._lock_status = '{}{}'.format(
                 LOCK_ALARM_TYPE.get(str(alarm_type)),
